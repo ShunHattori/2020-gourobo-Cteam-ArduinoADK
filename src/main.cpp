@@ -34,8 +34,8 @@ void setup()
   setPwmFrequencyMEGA2560(6, 1);
   setPwmFrequencyMEGA2560(7, 1);
   setPwmFrequencyMEGA2560(8, 1);
-  setPwmFrequencyMEGA2560(9, 1);
-  setPwmFrequencyMEGA2560(10, 1);
+  setPwmFrequencyMEGA2560(11, 1);
+  setPwmFrequencyMEGA2560(12, 1);
   Serial.begin(ADKbreakoutboard::SerialBaud.HardwareSerial);
   Serial1.begin(ADKbreakoutboard::SerialBaud.HardwareSerial);
   Serial2.begin(ADKbreakoutboard::SerialBaud.HardwareSerial);
@@ -79,32 +79,32 @@ void loop()
   stickVector[1] = (PS4.getAnalogHat(LeftHatY) - 127) * RobotParam.pwmMultiply;
   if (-3 < stickVector[1] && stickVector[1] < 3)
     stickVector[1] = 0;
-  stickVector[2] = (PS4.getAnalogButton(R2) - PS4.getAnalogButton(L2)) * 0.07;
+  stickVector[2] = (PS4.getAnalogButton(R2) - PS4.getAnalogButton(L2)) * 0.2;
 
   reverseKinematics.getOutput(stickVector[0], stickVector[1], -stickVector[2], -IMU.getYaw(), reverseKinematicsOutput);
   manualMotorRateFixes(reverseKinematicsOutput, fixedMotorAppliedPWM);
   pwmApplyForDriveTesting(fixedMotorAppliedPWM);
-  // Serial.print(reverseKinematicsOutput[0]);
-  // Serial.print('\t');
-  // Serial.print(reverseKinematicsOutput[1]);
-  // Serial.print('\t');
-  // Serial.print(reverseKinematicsOutput[2]);
-  // Serial.print('\t');
-  // Serial.print('\t');
-  // Serial.print(fixedMotorAppliedPWM[0]);
-  // Serial.print('\t');
-  // Serial.print(fixedMotorAppliedPWM[1]);
-  // Serial.print('\t');
-  // Serial.print(fixedMotorAppliedPWM[2]);
-  // Serial.print('\t');
-  // Serial.print(IMU.getYaw());
-  // Serial.print('\t');
-  // static double prevMicros;
-  // Serial.print(1.0 / (double(micros() - prevMicros) / 1000.0 / 1000.0));
-  // Serial.print("Hz (LOOP RATE)");
-  // prevMicros = micros();
-  // Serial.print(getButtonClickOnce(CIRCLE));
-  // Serial.print("\r\n");
+  /* Serial.print(reverseKinematicsOutput[0]);
+     Serial.print('\t');
+     Serial.print(reverseKinematicsOutput[1]);
+     Serial.print('\t');
+     Serial.print(reverseKinematicsOutput[2]);
+     Serial.print('\t');
+     Serial.print('\t');
+     Serial.print(fixedMotorAppliedPWM[0]);
+     Serial.print('\t');
+     Serial.print(fixedMotorAppliedPWM[1]);
+     Serial.print('\t');
+     Serial.print(fixedMotorAppliedPWM[2]);
+     Serial.print('\t');
+     Serial.print(IMU.getYaw());
+     Serial.print('\t');
+     static double prevMicros;
+     Serial.print(1.0 / (double(micros() - prevMicros) / 1000.0 / 1000.0));
+     Serial.print("Hz (LOOP RATE)");
+     prevMicros = micros();
+     Serial.print(getButtonClickOnce(CIRCLE));
+     Serial.print("\r\n"); */
 }
 
 void manualMotorRateFixes(int *kinematicsOut, int *calibratedOut)
@@ -126,13 +126,13 @@ void pwmApplyForDriveTesting(int *motorPWMs)
 {
   if (motorPWMs[0] > 0)
   {
-    analogWrite(5, motorPWMs[0]);
-    analogWrite(6, 0);
+    analogWrite(6, motorPWMs[0]);
+    analogWrite(5, 0);
   }
   else
   {
-    analogWrite(5, 0);
-    analogWrite(6, -motorPWMs[0]);
+    analogWrite(6, 0);
+    analogWrite(5, -motorPWMs[0]);
   }
   if (motorPWMs[1] > 0)
   {
@@ -146,13 +146,13 @@ void pwmApplyForDriveTesting(int *motorPWMs)
   }
   if (motorPWMs[2] > 0)
   {
-    analogWrite(9, motorPWMs[2]);
-    analogWrite(10, 0);
+    analogWrite(11, motorPWMs[2]);
+    analogWrite(12, 0);
   }
   else
   {
-    analogWrite(9, 0);
-    analogWrite(10, -motorPWMs[2]);
+    analogWrite(11, 0);
+    analogWrite(12, -motorPWMs[2]);
   }
 }
 
